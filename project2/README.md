@@ -1,5 +1,18 @@
 # Project: Data Warehouse
 
+## Introduction
+The code in this repo performs extract, load, and transform (ELT) operations in Redshift with Sparkify's data to assist the music streaming startup with their business intelligence reports.
+
+The source data is stored in Amazon S3 buckets. The ELT pipeline consists of Python scripts that use the psycopg2 library to execute Redshift copy commands of the source data (user events and the song library) to staging tables (staging_events and staging_songs, respectively). Next, a star schema is implemented by creating a facts table (songplays) that contains the user play event timestamps the sort keys for four dimension tables (users, songs, artists, time).
+
+Here are brief summaries of the data stored in the dimensions tables:
+* users - Sparkify's users' full names, their genders, and their membership levels
+* songs - songs' titles, artist id's, year released, and duration
+* artists - artists' names, locations, and coordinates
+* time - timestamps from users' listening  events with granular details including the hour, day, week, month, and year  
+
+![Sparkify ETL Diagram shows source in Amazon S3, staging tables that need to be created and the star schema tables that will be generated for reports](img/project2-sparkify-s3-to-redshift-etl.png)
+
 ## Prerequisites
 1. Create an IAM role with approprirate permissions for Redshift to assume
 1. Deploy a Redshift Cluster or Redshift Serverless with the IAM role attached
@@ -22,23 +35,11 @@ LOG_JSONPATH='s3://udacity-dend/log_json_path.json'
 SONG_DATA='s3://udacity-dend/song_data'
 ```
 
-## Introduction
-A music streaming startup, Sparkify, has grown their user base and song database and want to move their processes and data onto the cloud. Their data resides in S3, in a directory of JSON logs on user activity on the app, as well as a directory with JSON metadata on the songs in their app.
-
-As their data engineer, you are tasked with building an ETL pipeline that extracts their data from S3, stages them in Redshift, and transforms data into a set of dimensional tables for their analytics team to continue finding insights into what songs their users are listening to.
-
-![Sparkify ETL Diagram shows source in Amazon S3, staging tables that need to be created and the star schema tables that will be generated for reports](img/project2-sparkify-s3-to-redshift-etl.png)
-
-
-## Project Description
-In this project, you'll apply what you've learned on data warehouses and AWS to build an ETL pipeline for a database hosted on Redshift. To complete the project, you will need to load data from S3 to staging tables on Redshift and execute SQL statements that create the analytics tables from these staging tables.
-
-
-
-## Song Dataset
-The first dataset is a subset of real data from the Million Song Dataset. Each file is in JSON format and contains metadata about a song and the artist of that song. The files are partitioned by the first three letters of each song's track ID. For example, here are file paths to two files in this dataset.
-
-
+## Sparkify Questions to Answer
+1. Which songs from each decade were most popular with users to curate 80's, 90's, etc. playlists?
+1. What were the most popular songs between the period of U.S. Thanksiving and New Years to consider curating a Christmas playlist to countries that observe that holiday?
+1. Which songs were most popular with women during the month of March to curate a Women's History Month playlist?
+1. What songs were popular on Wednesdays to make a Hump Day playlist?
 
 ## Document Process
 Do the following steps in your README.md file. Here's a guide on Markdown Syntax.
